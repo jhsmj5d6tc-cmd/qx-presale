@@ -2,391 +2,71 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#080711">
 <title>QX Presale</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
-  background:#070510;
-  color:#fff;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-}
-
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;min-height:100%;background:#070510;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 body{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 50% 0%,rgba(125,55,220,.20),transparent 42%),
-    linear-gradient(180deg,#080711 0%,#0c0715 100%);
+background:
+radial-gradient(circle at 50% 0%,rgba(125,55,220,.2),transparent 42%),
+linear-gradient(180deg,#080711 0%,#0c0715 100%);
 }
-
-button,input{
-  font-family:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.container{
-  width:min(560px,100%);
-  margin:auto;
-  padding:22px 18px 50px;
-}
-
-.logo{
-  text-align:center;
-  font-size:42px;
-  font-weight:900;
-  letter-spacing:-2px;
-  margin-top:12px;
-  background:linear-gradient(90deg,#fff,#b987ff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.subtitle{
-  text-align:center;
-  color:#aaa0b8;
-  margin-top:4px;
-  font-size:14px;
-}
-
-.lang{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin:18px 0;
-}
-
-.lang button{
-  border:1px solid #4b3567;
-  background:#120b21;
-  color:#aaa0b8;
-  border-radius:999px;
-  padding:7px 14px;
-}
-
-.lang button.active{
-  color:#fff;
-  border-color:#9a64e8;
-  background:#24143c;
-}
-
-.card{
-  background:rgba(18,11,33,.88);
-  border:1px solid #3e2a55;
-  border-radius:22px;
-  padding:20px;
-  margin-top:15px;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-}
-
-.card h2{
-  margin:0 0 8px;
-  font-size:20px;
-}
-
-.muted{
-  color:#9f96aa;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.wallet-status{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:12px;
-  border-radius:14px;
-  background:#0c0814;
-  border:1px solid #342344;
-  margin-top:15px;
-  font-size:13px;
-}
-
-.dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#777;
-  flex:none;
-}
-
-.dot.on{
-  background:#39e58c;
-  box-shadow:0 0 12px rgba(57,229,140,.8);
-}
-
-.dot.off{
-  background:#e05c72;
-}
-
-button.primary{
-  width:100%;
-  border:0;
-  border-radius:15px;
-  padding:15px;
-  margin-top:14px;
-  font-size:16px;
-  font-weight:800;
-  color:#fff;
-  background:linear-gradient(135deg,#8b4fe5,#5e31a8);
-  box-shadow:0 10px 30px rgba(120,55,220,.25);
-}
-
-button.primary:disabled{
-  opacity:.55;
-}
-
-.wallet-address{
-  margin-top:9px;
-  font-size:11px;
-  color:#8e8599;
-  word-break:break-all;
-  text-align:center;
-}
-
-.timer{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:18px;
-}
-
-.timebox{
-  text-align:center;
-  background:#0d0916;
-  border:1px solid #382548;
-  border-radius:14px;
-  padding:12px 5px;
-}
-
-.timebox strong{
-  display:block;
-  font-size:22px;
-}
-
-.timebox span{
-  color:#8f8799;
-  font-size:10px;
-  text-transform:uppercase;
-}
-
-.price{
-  text-align:center;
-  margin:20px 0 5px;
-}
-
-.price .amount{
-  font-size:28px;
-  font-weight:900;
-}
-
-.price small{
-  display:block;
-  color:#8e8599;
-  margin-top:4px;
-}
-
-label{
-  display:block;
-  color:#aaa0b8;
-  font-size:12px;
-  margin:15px 0 7px;
-}
-
-input{
-  width:100%;
-  border:1px solid #4a3260;
-  outline:none;
-  border-radius:13px;
-  background:#0b0712;
-  color:#fff;
-  padding:14px;
-  font-size:17px;
-}
-
-input:focus{
-  border-color:#9b63e9;
-}
-
-.receive{
-  margin-top:15px;
-  padding:13px;
-  border-radius:13px;
-  background:#0b0712;
-  border:1px solid #32213f;
-}
-
-.receive-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin:6px 0;
-}
-
-.receive-row span:first-child{
-  color:#93899e;
-}
-
-.receive-row span:last-child{
-  font-weight:700;
-}
-
-.status{
-  display:none;
-  margin-top:15px;
-  padding:13px;
-  border-radius:13px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.status.show{
-  display:block;
-}
-
-.status.info{
-  background:#171025;
-  border:1px solid #503774;
-  color:#cdb8e9;
-}
-
-.status.success{
-  background:#0d2119;
-  border:1px solid #245c43;
-  color:#8ce2b4;
-}
-
-.status.error{
-  background:#230f15;
-  border:1px solid #6b2d3d;
-  color:#ff9daf;
-}
-
-.note{
-  margin-top:18px;
-  color:#837a8e;
-  font-size:11px;
-  line-height:1.6;
-  text-align:center;
-}
-
-.footer{
-  text-align:center;
-  color:#706878;
-  font-size:11px;
-  margin-top:25px;
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  display:none;
-  align-items:flex-end;
-  justify-content:center;
-  z-index:9999;
-  padding:15px;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:min(500px,100%);
-  background:#120b21;
-  border:1px solid #4a3260;
-  border-radius:23px;
-  padding:20px;
-  box-shadow:0 -10px 60px rgba(0,0,0,.5);
-}
-
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.modal-head h3{
-  margin:0;
-}
-
-.close{
-  border:0;
-  background:transparent;
-  color:#aaa0b8;
-  font-size:25px;
-}
-
-.wallet-option{
-  width:100%;
-  border:1px solid #3d294e;
-  background:#0c0814;
-  color:#fff;
-  border-radius:15px;
-  padding:15px;
-  margin-top:10px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  text-align:left;
-}
-
-.wallet-icon{
-  width:38px;
-  height:38px;
-  border-radius:11px;
-  background:#241537;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
-}
-
-.wallet-option small{
-  display:block;
-  color:#8f8799;
-  margin-top:2px;
-}
-
-.wallet-option:hover{
-  border-color:#9661df;
-}
-
-.wallet-option:active{
-  transform:scale(.99);
-}
-
-.hidden{
-  display:none!important;
-}
-
+button,input{font-family:inherit}
+button{cursor:pointer}
+.container{width:min(560px,100%);margin:auto;padding:22px 18px 50px}
+.logo{text-align:center;font-size:42px;font-weight:900;letter-spacing:-2px;margin-top:12px;background:linear-gradient(90deg,#fff,#b987ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{text-align:center;color:#aaa0b8;margin-top:4px;font-size:14px}
+.lang{display:flex;justify-content:center;gap:8px;margin:18px 0}
+.lang button{border:1px solid #4b3567;background:#120b21;color:#aaa0b8;border-radius:999px;padding:7px 14px}
+.lang button.active{color:#fff;border-color:#9a64e8;background:#24143c}
+.card{background:rgba(18,11,33,.88);border:1px solid #3e2a55;border-radius:22px;padding:20px;margin-top:15px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.card h2{margin:0 0 8px;font-size:20px}
+.muted{color:#9f96aa;font-size:13px;line-height:1.5}
+.wallet-status{display:flex;align-items:center;gap:9px;padding:12px;border-radius:14px;background:#0c0814;border:1px solid #342344;margin-top:15px;font-size:13px}
+.dot{width:9px;height:9px;border-radius:50%;background:#777;flex:none}
+.dot.on{background:#39e58c;box-shadow:0 0 12px rgba(57,229,140,.8)}
+.dot.off{background:#e05c72}
+button.primary{width:100%;border:0;border-radius:15px;padding:15px;margin-top:14px;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(135deg,#8b4fe5,#5e31a8);box-shadow:0 10px 30px rgba(120,55,220,.25)}
+button.primary:disabled{opacity:.55}
+.wallet-address{margin-top:9px;font-size:11px;color:#8e8599;word-break:break-all;text-align:center}
+.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.timebox{text-align:center;background:#0d0916;border:1px solid #382548;border-radius:14px;padding:12px 5px}
+.timebox strong{display:block;font-size:22px}
+.timebox span{color:#8f8799;font-size:10px;text-transform:uppercase}
+.price{text-align:center;margin:20px 0 5px}
+.price .amount{font-size:28px;font-weight:900}
+.price small{display:block;color:#8e8599;margin-top:4px}
+.sol-price{text-align:center;color:#8f8799;font-size:11px;margin-top:6px}
+label{display:block;color:#aaa0b8;font-size:12px;margin:15px 0 7px}
+input{width:100%;border:1px solid #4a3260;outline:none;border-radius:13px;background:#0b0712;color:#fff;padding:14px;font-size:17px}
+input:focus{border-color:#9b63e9}
+.receive{margin-top:15px;padding:13px;border-radius:13px;background:#0b0712;border:1px solid #32213f}
+.receive-row{display:flex;justify-content:space-between;gap:10px;margin:7px 0}
+.receive-row span:first-child{color:#93899e}
+.receive-row span:last-child{font-weight:700}
+.status{display:none;margin-top:15px;padding:13px;border-radius:13px;font-size:13px;line-height:1.5;word-break:break-word}
+.status.show{display:block}
+.status.info{background:#171025;border:1px solid #503774;color:#cdb8e9}
+.status.success{background:#0d2119;border:1px solid #245c43;color:#8ce2b4}
+.status.error{background:#230f15;border:1px solid #6b2d3d;color:#ff9daf}
+.note{margin-top:18px;color:#837a8e;font-size:11px;line-height:1.6;text-align:center}
+.footer{text-align:center;color:#706878;font-size:11px;margin-top:25px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;z-index:9999;padding:15px}
+.modal.show{display:flex}
+.modal-box{width:min(500px,100%);background:#120b21;border:1px solid #4a3260;border-radius:23px;padding:20px;box-shadow:0 -10px 60px rgba(0,0,0,.5)}
+.modal-head{display:flex;justify-content:space-between;align-items:center}
+.modal-head h3{margin:0}
+.close{border:0;background:transparent;color:#aaa0b8;font-size:25px}
+.wallet-option{width:100%;border:1px solid #3d294e;background:#0c0814;color:#fff;border-radius:15px;padding:15px;margin-top:10px;display:flex;align-items:center;gap:12px;text-align:left}
+.wallet-icon{width:38px;height:38px;border-radius:11px;background:#241537;display:flex;align-items:center;justify-content:center;font-weight:900}
+.wallet-option small{display:block;color:#8f8799;margin-top:2px}
+.wallet-option:active{transform:scale(.99)}
 @media(max-width:380px){
-  .container{
-    padding-left:13px;
-    padding-right:13px;
-  }
-
-  .timer{
-    gap:5px;
-  }
-
-  .timebox strong{
-    font-size:19px;
-  }
+.container{padding-left:13px;padding-right:13px}
+.timebox strong{font-size:19px}
 }
 </style>
 </head>
@@ -395,189 +75,192 @@ input:focus{
 
 <div class="container">
 
-  <div class="logo">QX</div>
-  <div class="subtitle" data-i18n="subtitle">Official QX Presale</div>
+<div class="logo">QX</div>
+<div class="subtitle" data-i18n="subtitle">Official QX Presale</div>
 
-  <div class="lang">
-    <button id="enBtn" class="active" onclick="setLanguage('en')">English</button>
-    <button id="arBtn" onclick="setLanguage('ar')">العربية</button>
-  </div>
+<div class="lang">
+<button id="enBtn" class="active" onclick="setLanguage('en')">English</button>
+<button id="arBtn" onclick="setLanguage('ar')">العربية</button>
+</div>
 
-  <div class="card">
+<div class="card">
 
-    <h2 data-i18n="walletTitle">Connect Solana Wallet</h2>
+<h2 data-i18n="walletTitle">Connect Solana Wallet</h2>
 
-    <div class="muted" data-i18n="walletText">
-      Connect your Solana wallet to participate in the QX presale.
-    </div>
+<div class="muted" data-i18n="walletText">
+Connect your Solana wallet to participate in the QX presale.
+</div>
 
-    <div class="wallet-status">
-      <div id="statusDot" class="dot off"></div>
-      <span id="walletStatus">Wallet not connected</span>
-    </div>
+<div class="wallet-status">
+<div id="statusDot" class="dot off"></div>
+<span id="walletStatus">Wallet not connected</span>
+</div>
 
-    <button id="connectBtn"
-            class="primary"
-            onclick="openWalletSelector()"
-            data-i18n="connect">
-      Connect Wallet
-    </button>
+<button id="connectBtn"
+class="primary"
+onclick="openWalletSelector()"
+data-i18n="connect">
+Connect Wallet
+</button>
 
-    <div id="walletAddress" class="wallet-address"></div>
+<div id="walletAddress" class="wallet-address"></div>
 
-  </div>
+</div>
 
-  <div class="card">
+<div class="card">
 
-    <h2 data-i18n="presale">QX Presale</h2>
+<h2 data-i18n="presale">QX Presale</h2>
 
-    <div class="muted" data-i18n="countdownTitle">
-      Presale ends in
-    </div>
+<div class="muted" data-i18n="countdownTitle">
+Presale ends in
+</div>
 
-    <div class="timer">
-      <div class="timebox">
-        <strong id="days">00</strong>
-        <span data-i18n="days">Days</span>
-      </div>
+<div class="timer">
+<div class="timebox">
+<strong id="days">00</strong>
+<span data-i18n="days">Days</span>
+</div>
 
-      <div class="timebox">
-        <strong id="hours">00</strong>
-        <span data-i18n="hours">Hours</span>
-      </div>
+<div class="timebox">
+<strong id="hours">00</strong>
+<span data-i18n="hours">Hours</span>
+</div>
 
-      <div class="timebox">
-        <strong id="minutes">00</strong>
-        <span data-i18n="minutes">Minutes</span>
-      </div>
+<div class="timebox">
+<strong id="minutes">00</strong>
+<span data-i18n="minutes">Minutes</span>
+</div>
 
-      <div class="timebox">
-        <strong id="seconds">00</strong>
-        <span data-i18n="seconds">Seconds</span>
-      </div>
-    </div>
+<div class="timebox">
+<strong id="seconds">00</strong>
+<span data-i18n="seconds">Seconds</span>
+</div>
+</div>
 
-    <div class="price">
-      <div class="amount">$0.0002</div>
-      <small data-i18n="priceText">1 QX</small>
-    </div>
+<div class="price">
+<div class="amount">$0.0002</div>
+<small>1 QX</small>
+<div id="solPrice" class="sol-price">SOL price loading...</div>
+</div>
 
-    <label data-i18n="solAmount">SOL Amount</label>
+<label data-i18n="solAmount">SOL Amount</label>
 
-    <input
-      id="solAmount"
-      type="number"
-      inputmode="decimal"
-      min="0.01"
-      step="0.01"
-      placeholder="Enter SOL amount"
-      oninput="updateQX()"
-    >
+<input
+id="solAmount"
+type="number"
+inputmode="decimal"
+min="0.01"
+step="0.01"
+placeholder="Enter SOL amount"
+oninput="updateQX()">
 
-    <div class="receive">
-      <div class="receive-row">
-        <span data-i18n="youPay">You pay</span>
-        <span id="payDisplay">0 SOL</span>
-      </div>
+<div class="receive">
 
-      <div class="receive-row">
-        <span data-i18n="youReceive">Estimated QX</span>
-        <span id="qxDisplay">0 QX</span>
-      </div>
-    </div>
+<div class="receive-row">
+<span data-i18n="youPay">You pay</span>
+<span id="payDisplay">0 SOL</span>
+</div>
 
-    <button
-      id="buyBtn"
-      class="primary"
-      onclick="buyQX()"
-      data-i18n="buy">
-      Buy QX
-    </button>
+<div class="receive-row">
+<span data-i18n="youReceive">Estimated QX</span>
+<span id="qxDisplay">0 QX</span>
+</div>
 
-    <div id="message" class="status"></div>
+</div>
 
-    <div class="note" data-i18n="note">
-      SOL will be sent to the official QX presale wallet.
-      QX allocation will be delivered manually after the presale.
-    </div>
+<button
+id="buyBtn"
+class="primary"
+onclick="buyQX()"
+data-i18n="buy">
+Buy QX
+</button>
 
-  </div>
+<div id="message" class="status"></div>
 
-  <div class="footer">
-    © 2026 QX Exchange
-  </div>
+<div class="note" data-i18n="note">
+SOL will be sent to the official QX presale wallet.
+QX allocation will be delivered manually after the presale.
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 QX Exchange
+</div>
 
 </div>
 
 
-<!-- WALLET SELECTOR -->
-
 <div id="walletModal" class="modal" onclick="closeModalOutside(event)">
-  <div class="modal-box">
 
-    <div class="modal-head">
-      <h3 data-i18n="chooseWallet">Choose Wallet</h3>
+<div class="modal-box">
 
-      <button class="close" onclick="closeWalletSelector()">×</button>
-    </div>
+<div class="modal-head">
+<h3 data-i18n="chooseWallet">Choose Wallet</h3>
+<button class="close" onclick="closeWalletSelector()">×</button>
+</div>
 
-    <button class="wallet-option" onclick="connectWallet('phantom')">
-      <div class="wallet-icon">P</div>
-      <div>
-        <strong>Phantom</strong>
-        <small>Solana Wallet</small>
-      </div>
-    </button>
+<button class="wallet-option" onclick="connectWallet('phantom')">
+<div class="wallet-icon">P</div>
+<div>
+<strong>Phantom</strong>
+<small>Solana Wallet</small>
+</div>
+</button>
 
-    <button class="wallet-option" onclick="connectWallet('solflare')">
-      <div class="wallet-icon">S</div>
-      <div>
-        <strong>Solflare</strong>
-        <small>Solana Wallet</small>
-      </div>
-    </button>
+<button class="wallet-option" onclick="connectWallet('solflare')">
+<div class="wallet-icon">S</div>
+<div>
+<strong>Solflare</strong>
+<small>Solana Wallet</small>
+</div>
+</button>
 
-    <button class="wallet-option" onclick="connectWallet('backpack')">
-      <div class="wallet-icon">B</div>
-      <div>
-        <strong>Backpack</strong>
-        <small>Solana Wallet</small>
-      </div>
-    </button>
+<button class="wallet-option" onclick="connectWallet('backpack')">
+<div class="wallet-icon">B</div>
+<div>
+<strong>Backpack</strong>
+<small>Solana Wallet</small>
+</div>
+</button>
 
-    <div class="note">
-      If Safari cannot access the wallet directly,
-      the wallet app will be opened instead.
-    </div>
+<div class="note">
+Choose your preferred Solana wallet.
+</div>
 
-  </div>
+</div>
 </div>
 
 
 <script>
+
 "use strict";
 
+
 /* =========================
-   QX CONFIG
+   CONFIG
 ========================= */
 
 const RECEIVING_WALLET =
-"E4x2DiVVDuQHSUGgzTPjMDbiJ6jCRwpEvsvAd31Qs4";
+"E4x2DiVVDuQHSUGgzTPjJMDbiJ6jCRwpEvsvAd31Qs4";
 
-const QX_PRICE_USD = 0.0002;
+const QX_PRICE_USD =
+0.0002;
 
 const PRESALE_END =
 "2026-11-15T01:45:00+04:00";
 
 let currentWallet = null;
 let currentWalletName = null;
+let solUsdPrice = 0;
 
 
 /* =========================
    LANGUAGE
 ========================= */
 
-const translations = {
+const T = {
 
 en:{
 subtitle:"Official QX Presale",
@@ -590,7 +273,6 @@ days:"Days",
 hours:"Hours",
 minutes:"Minutes",
 seconds:"Seconds",
-priceText:"1 QX",
 solAmount:"SOL Amount",
 youPay:"You pay",
 youReceive:"Estimated QX",
@@ -610,7 +292,6 @@ days:"يوم",
 hours:"ساعة",
 minutes:"دقيقة",
 seconds:"ثانية",
-priceText:"سعر QX الواحد",
 solAmount:"كمية SOL",
 youPay:"المبلغ المدفوع",
 youReceive:"كمية QX المتوقعة",
@@ -624,245 +305,263 @@ chooseWallet:"اختر المحفظة"
 
 function setLanguage(lang){
 
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+document.documentElement.lang=lang;
 
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const key = el.getAttribute("data-i18n");
+document.documentElement.dir=
+lang==="ar" ? "rtl":"ltr";
 
-    if(translations[lang][key]){
-      el.textContent = translations[lang][key];
-    }
-  });
+document.querySelectorAll("[data-i18n]").forEach(el=>{
 
-  document.getElementById("enBtn").classList.toggle("active",lang==="en");
-  document.getElementById("arBtn").classList.toggle("active",lang==="ar");
+const key=el.dataset.i18n;
 
-  localStorage.setItem("qx_lang",lang);
+if(T[lang][key]){
+el.textContent=T[lang][key];
+}
+
+});
+
+document.getElementById("enBtn")
+.classList.toggle("active",lang==="en");
+
+document.getElementById("arBtn")
+.classList.toggle("active",lang==="ar");
+
+localStorage.setItem("qx_lang",lang);
+
 }
 
 
 /* =========================
-   MODAL
+   WALLET MODAL
 ========================= */
 
 function openWalletSelector(){
-  document.getElementById("walletModal").classList.add("show");
+
+document.getElementById("walletModal")
+.classList.add("show");
+
 }
+
 
 function closeWalletSelector(){
-  document.getElementById("walletModal").classList.remove("show");
+
+document.getElementById("walletModal")
+.classList.remove("show");
+
 }
+
 
 function closeModalOutside(e){
-  if(e.target.id==="walletModal"){
-    closeWalletSelector();
-  }
+
+if(e.target.id==="walletModal"){
+closeWalletSelector();
+}
+
 }
 
 
 /* =========================
-   DETECT WALLETS
+   PROVIDER DETECTION
 ========================= */
 
-function getPhantom(){
+function phantomProvider(){
 
-  if(window.phantom &&
-     window.phantom.solana &&
-     window.phantom.solana.isPhantom){
+if(window.phantom &&
+window.phantom.solana &&
+window.phantom.solana.isPhantom){
 
-    return window.phantom.solana;
-  }
+return window.phantom.solana;
 
-  if(window.solana && window.solana.isPhantom){
-    return window.solana;
-  }
+}
 
-  return null;
+if(window.solana &&
+window.solana.isPhantom){
+
+return window.solana;
+
+}
+
+return null;
+
 }
 
 
-function getSolflare(){
+function solflareProvider(){
 
-  if(window.solflare &&
-     typeof window.solflare.connect === "function"){
+if(window.solflare &&
+typeof window.solflare.connect==="function"){
 
-    return window.solflare;
-  }
+return window.solflare;
 
-  return null;
+}
+
+return null;
+
 }
 
 
-function getBackpack(){
+function backpackProvider(){
 
-  if(window.backpack &&
-     window.backpack.solana){
+if(window.backpack &&
+window.backpack.solana){
 
-    return window.backpack.solana;
-  }
+return window.backpack.solana;
 
-  if(window.backpack &&
-     typeof window.backpack.connect === "function"){
+}
 
-    return window.backpack;
-  }
+return null;
 
-  return null;
 }
 
 
 /* =========================
-   MOBILE WALLET OPEN
+   CONNECT
 ========================= */
 
-function isIOS(){
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+async function connectWallet(name){
+
+closeWalletSelector();
+
+showMessage(
+"Connecting to "+
+name.charAt(0).toUpperCase()+name.slice(1)+"...",
+"info"
+);
+
+
+let provider=null;
+
+if(name==="phantom"){
+provider=phantomProvider();
+}
+
+if(name==="solflare"){
+provider=solflareProvider();
+}
+
+if(name==="backpack"){
+provider=backpackProvider();
 }
 
 
-function openWalletApp(wallet){
+/*
+ IMPORTANT:
+ If a provider is already connected,
+ DO NOT CONNECT AGAIN.
+*/
 
-  const currentUrl =
-    window.location.href;
+if(provider){
 
-  let url = "";
+try{
 
-  if(wallet==="phantom"){
+if(provider.publicKey){
 
-    /*
-      Phantom browser universal link.
-      This opens Phantom's in-app browser
-      with the current QX page.
-    */
+currentWallet=provider;
+currentWalletName=name;
 
-    url =
-      "https://phantom.app/ul/browse/" +
-      encodeURIComponent(currentUrl) +
-      "?ref=" +
-      encodeURIComponent(currentUrl);
+setConnected(
+provider.publicKey.toString()
+);
 
-  }
+return;
 
-  else if(wallet==="solflare"){
+}
 
-    url =
-      "https://solflare.com/ul/v1/browse/" +
-      encodeURIComponent(currentUrl);
 
-  }
+if(typeof provider.connect==="function"){
 
-  else if(wallet==="backpack"){
+const result=
+await provider.connect();
 
-    /*
-      Backpack fallback:
-      open the site URL in the wallet browser.
-    */
+const key=
+result && result.publicKey
+? result.publicKey
+: provider.publicKey;
 
-    url =
-      "https://backpack.app/ul/browse/" +
-      encodeURIComponent(currentUrl);
+if(key){
 
-  }
+currentWallet=provider;
+currentWalletName=name;
 
-  if(url){
-    window.location.href = url;
-  }
+setConnected(
+key.toString()
+);
+
+return;
+
+}
+
+}
+
+}catch(e){
+
+console.error(e);
+
+}
+
+}
+
+
+/*
+ No injected provider in normal Safari.
+ Open the wallet browser.
+*/
+
+openWalletBrowser(name);
+
 }
 
 
 /* =========================
-   CONNECT WALLET
+   OPEN WALLET BROWSER
 ========================= */
 
-async function connectWallet(walletName){
+function openWalletBrowser(name){
 
-  closeWalletSelector();
-
-  showMessage(
-    "Connecting to " +
-    walletName.charAt(0).toUpperCase() +
-    walletName.slice(1) +
-    "...",
-    "info"
-  );
-
-  try{
-
-    let provider = null;
-
-    if(walletName==="phantom"){
-      provider = getPhantom();
-    }
-
-    if(walletName==="solflare"){
-      provider = getSolflare();
-    }
-
-    if(walletName==="backpack"){
-      provider = getBackpack();
-    }
+const url=
+window.location.href;
 
 
-    /*
-      If wallet is already injected into Safari,
-      connect directly.
-    */
+if(name==="phantom"){
 
-    if(provider &&
-       typeof provider.connect === "function"){
+const phantomUrl=
+"https://phantom.app/ul/browse/"+
+encodeURIComponent(url)+
+"?ref="+
+encodeURIComponent(url);
 
-      const response =
-        await provider.connect();
+window.location.href=phantomUrl;
 
-      const publicKey =
-        response &&
-        response.publicKey
-          ? response.publicKey
-          : provider.publicKey;
+return;
 
-      if(publicKey){
-
-        currentWallet = provider;
-        currentWalletName = walletName;
-
-        setConnected(publicKey.toString());
-
-        return;
-      }
-    }
+}
 
 
-    /*
-      No injected provider.
-      On iPhone Safari open wallet app/browser.
-    */
+if(name==="solflare"){
 
-    showMessage(
-      "Opening " +
-      walletName.charAt(0).toUpperCase() +
-      walletName.slice(1) +
-      "...",
-      "info"
-    );
+const solflareUrl=
+"https://solflare.com/ul/v1/browse/"+
+encodeURIComponent(url);
 
-    setTimeout(()=>{
-      openWalletApp(walletName);
-    },300);
+window.location.href=solflareUrl;
 
-  }
-  catch(error){
+return;
 
-    console.error(error);
+}
 
-    showMessage(
-      "Wallet connection failed: " +
-      (error && error.message
-        ? error.message
-        : String(error)),
-      "error"
-    );
-  }
+
+if(name==="backpack"){
+
+const backpackUrl=
+"https://backpack.app/ul/browse/"+
+encodeURIComponent(url);
+
+window.location.href=backpackUrl;
+
+return;
+
+}
+
 }
 
 
@@ -872,283 +571,493 @@ async function connectWallet(walletName){
 
 function setConnected(address){
 
-  const short =
-    address.slice(0,6) +
-    "..." +
-    address.slice(-6);
+currentWalletAddress=address;
 
-  document.getElementById("walletStatus").textContent =
-    "Wallet connected";
+const short=
+address.slice(0,6)+
+"..."+
+address.slice(-6);
 
-  document.getElementById("statusDot")
-    .className = "dot on";
+document.getElementById("walletStatus")
+.textContent="Wallet connected";
 
-  document.getElementById("walletAddress").textContent =
-    short;
+document.getElementById("statusDot")
+.className="dot on";
 
-  const btn =
-    document.getElementById("connectBtn");
+document.getElementById("walletAddress")
+.textContent=short;
 
-  btn.textContent = "Connected";
-  btn.disabled = true;
+const btn=
+document.getElementById("connectBtn");
+
+btn.textContent="Connected";
+
+btn.disabled=true;
+
+showMessage(
+"Wallet connected successfully.",
+"success"
+);
+
 }
 
 
 /* =========================
-   QX CALCULATOR
+   SOL PRICE
+========================= */
+
+async function loadSolPrice(){
+
+try{
+
+const r=
+await fetch(
+"https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+{
+cache:"no-store"
+}
+);
+
+if(!r.ok){
+throw new Error("Price API unavailable");
+}
+
+const data=
+await r.json();
+
+solUsdPrice=
+Number(data.solana.usd);
+
+if(solUsdPrice>0){
+
+document.getElementById("solPrice")
+.textContent=
+"1 SOL ≈ $"+
+solUsdPrice.toFixed(2);
+
+updateQX();
+
+}
+
+}catch(e){
+
+console.error(e);
+
+document.getElementById("solPrice")
+.textContent=
+"SOL price unavailable";
+
+}
+
+}
+
+
+/* =========================
+   QX CALCULATION
 ========================= */
 
 function updateQX(){
 
-  const sol =
-    Number(document.getElementById("solAmount").value || 0);
+const sol=
+Number(
+document.getElementById("solAmount").value
+||0
+);
 
-  document.getElementById("payDisplay").textContent =
-    sol.toFixed(6) + " SOL";
+document.getElementById("payDisplay")
+.textContent=
+sol.toFixed(6)+" SOL";
 
-  /*
-    This uses the USD price of QX.
-    The exact QX quantity depends on SOL/USD at payment time.
-    The page therefore shows an estimate only.
-  */
+if(sol<=0 || solUsdPrice<=0){
 
-  document.getElementById("qxDisplay").textContent =
-    "— QX";
+document.getElementById("qxDisplay")
+.textContent="0 QX";
+
+return;
+
+}
+
+const usdValue=
+sol*solUsdPrice;
+
+const qx=
+usdValue/QX_PRICE_USD;
+
+document.getElementById("qxDisplay")
+.textContent=
+formatNumber(qx)+" QX";
+
+}
+
+
+function formatNumber(n){
+
+if(n>=1000000){
+
+return n.toLocaleString(
+"en-US",
+{
+maximumFractionDigits:0
+}
+);
+
+}
+
+return n.toLocaleString(
+"en-US",
+{
+maximumFractionDigits:2
+}
+);
 
 }
 
 
 /* =========================
-   MESSAGE
+   STATUS
 ========================= */
 
 function showMessage(text,type){
 
-  const el =
-    document.getElementById("message");
+const el=
+document.getElementById("message");
 
-  el.className =
-    "status show " + type;
+el.className=
+"status show "+type;
 
-  el.textContent = text;
+el.textContent=text;
+
 }
 
 
 /* =========================
-   BUY
+   WEB3 LOADER
+========================= */
+
+function loadSolanaWeb3(){
+
+return new Promise((resolve,reject)=>{
+
+if(window.solanaWeb3){
+
+resolve(window.solanaWeb3);
+
+return;
+
+}
+
+const src=
+"https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js";
+
+const s=
+document.createElement("script");
+
+s.src=src;
+s.async=true;
+
+s.onload=()=>{
+
+if(window.solanaWeb3){
+
+resolve(window.solanaWeb3);
+
+}else{
+
+reject(
+new Error(
+"Solana Web3 loaded but browser object is unavailable."
+)
+);
+
+}
+
+};
+
+s.onerror=()=>{
+
+reject(
+new Error(
+"Could not load Solana Web3."
+)
+);
+
+};
+
+document.head.appendChild(s);
+
+});
+
+}
+
+
+/* =========================
+   BUY QX
 ========================= */
 
 async function buyQX(){
 
-  const sol =
-    Number(document.getElementById("solAmount").value);
+/*
+ IMPORTANT FIX:
+ Do NOT call connectWallet() here.
+ The wallet is already connected.
+*/
 
-  if(!sol || sol <= 0){
+if(!currentWallet){
 
-    showMessage(
-      "Enter the SOL amount first.",
-      "error"
-    );
+showMessage(
+"Please connect your wallet first.",
+"error"
+);
 
-    return;
-  }
+openWalletSelector();
 
+return;
 
-  if(!currentWallet){
-
-    showMessage(
-      "Please connect your Solana wallet first.",
-      "error"
-    );
-
-    openWalletSelector();
-
-    return;
-  }
-
-
-  if(typeof currentWallet.signAndSendTransaction !== "function"){
-
-    showMessage(
-      "This wallet does not support transaction signing in this browser session.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  try{
-
-    showMessage(
-      "Preparing payment...",
-      "info"
-    );
-
-    /*
-      Load Solana web3 from jsDelivr.
-      This is a normal browser script, NOT esm.sh.
-    */
-
-    if(!window.solanaWeb3){
-
-      await loadScript(
-        "https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"
-      );
-    }
-
-
-    const web3 =
-      window.solanaWeb3;
-
-    if(!web3){
-
-      throw new Error(
-        "Solana Web3 library could not load."
-      );
-    }
-
-
-    const lamports =
-      Math.round(sol * web3.LAMPORTS_PER_SOL);
-
-
-    const connection =
-      new web3.Connection(
-        web3.clusterApiUrl("mainnet-beta"),
-        {
-          commitment:"confirmed"
-        }
-      );
-
-
-    const from =
-      new web3.PublicKey(
-        currentWallet.publicKey.toString()
-      );
-
-
-    const to =
-      new web3.PublicKey(
-        RECEIVING_WALLET
-      );
-
-
-    const transaction =
-      new web3.Transaction();
-
-
-    transaction.add(
-      web3.SystemProgram.transfer({
-        fromPubkey:from,
-        toPubkey:to,
-        lamports:lamports
-      })
-    );
-
-
-    transaction.feePayer = from;
-
-
-    const latest =
-      await connection.getLatestBlockhash(
-        "confirmed"
-      );
-
-
-    transaction.recentBlockhash =
-      latest.blockhash;
-
-
-    showMessage(
-      "Please approve the payment in your wallet...",
-      "info"
-    );
-
-
-    const result =
-      await currentWallet.signAndSendTransaction(
-        transaction
-      );
-
-
-    const signature =
-      result.signature || result;
-
-
-    showMessage(
-      "Payment submitted successfully. Transaction: " +
-      signature,
-      "success"
-    );
-
-  }
-  catch(error){
-
-    console.error(error);
-
-    showMessage(
-      "Payment failed: " +
-      (error && error.message
-        ? error.message
-        : String(error)),
-      "error"
-    );
-  }
 }
 
 
-/* =========================
-   SCRIPT LOADER
-========================= */
-
-function loadScript(src){
-
-  return new Promise((resolve,reject)=>{
-
-    const existing =
-      document.querySelector(
-        'script[src="' + src + '"]'
-      );
-
-    if(existing){
-
-      if(window.solanaWeb3){
-        resolve();
-      }else{
-        existing.addEventListener(
-          "load",
-          resolve
-        );
-
-        existing.addEventListener(
-          "error",
-          reject
-        );
-      }
-
-      return;
-    }
+const amount=
+Number(
+document.getElementById("solAmount").value
+||0
+);
 
 
-    const script =
-      document.createElement("script");
+if(!amount || amount<=0){
 
-    script.src = src;
-    script.async = true;
+showMessage(
+"Enter the SOL amount first.",
+"error"
+);
 
-    script.onload = resolve;
+return;
 
-    script.onerror = ()=>{
-      reject(
-        new Error(
-          "Could not load Solana Web3 library."
-        )
-      );
-    };
+}
 
-    document.head.appendChild(script);
-  });
+
+if(!currentWallet.publicKey){
+
+showMessage(
+"Wallet connection expired. Please reconnect.",
+"error"
+);
+
+currentWallet=null;
+currentWalletName=null;
+
+document.getElementById("connectBtn")
+.disabled=false;
+
+document.getElementById("connectBtn")
+.textContent=
+document.documentElement.lang==="ar"
+? "ربط المحفظة"
+: "Connect Wallet";
+
+return;
+
+}
+
+
+const buyButton=
+document.getElementById("buyBtn");
+
+buyButton.disabled=true;
+
+try{
+
+showMessage(
+"Preparing SOL payment...",
+"info"
+);
+
+
+const web3=
+await loadSolanaWeb3();
+
+
+const from=
+new web3.PublicKey(
+currentWallet.publicKey.toString()
+);
+
+
+const to=
+new web3.PublicKey(
+RECEIVING_WALLET
+);
+
+
+const lamports=
+Math.round(
+amount*web3.LAMPORTS_PER_SOL
+);
+
+
+if(lamports<=0){
+
+throw new Error(
+"Invalid SOL amount."
+);
+
+}
+
+
+const connection=
+new web3.Connection(
+web3.clusterApiUrl("mainnet-beta"),
+{
+commitment:"confirmed"
+}
+);
+
+
+showMessage(
+"Getting Solana network information...",
+"info"
+);
+
+
+const latest=
+await connection.getLatestBlockhash(
+"confirmed"
+);
+
+
+const transaction=
+new web3.Transaction();
+
+
+transaction.add(
+web3.SystemProgram.transfer({
+
+fromPubkey:from,
+
+toPubkey:to,
+
+lamports:lamports
+
+})
+);
+
+
+transaction.feePayer=
+from;
+
+transaction.recentBlockhash=
+latest.blockhash;
+
+
+showMessage(
+"Approve the SOL payment in your wallet.",
+"info"
+);
+
+
+let result;
+
+
+/*
+ Phantom / Backpack / Solflare
+ normally expose signAndSendTransaction.
+*/
+
+if(typeof currentWallet.signAndSendTransaction==="function"){
+
+result=
+await currentWallet.signAndSendTransaction(
+transaction
+);
+
+}
+
+else if(typeof currentWallet.signTransaction==="function"){
+
+const signed=
+await currentWallet.signTransaction(
+transaction
+);
+
+result=
+await connection.sendRawTransaction(
+signed.serialize(),
+{
+skipPreflight:false,
+preflightCommitment:"confirmed"
+}
+);
+
+}
+
+else{
+
+throw new Error(
+"This wallet does not support transaction signing in this browser."
+);
+
+}
+
+
+const signature=
+typeof result==="string"
+? result
+: result.signature;
+
+
+if(!signature){
+
+throw new Error(
+"Transaction was sent but no signature was returned."
+);
+
+}
+
+
+showMessage(
+"Payment submitted successfully. Transaction: "+
+signature,
+"success"
+);
+
+
+document.getElementById("solAmount")
+.value="";
+
+updateQX();
+
+
+}catch(error){
+
+console.error("QX PAYMENT ERROR:",error);
+
+let msg=
+error && error.message
+? error.message
+: String(error);
+
+
+if(
+msg.toLowerCase().includes("user rejected") ||
+msg.toLowerCase().includes("rejected")
+){
+
+msg=
+"Transaction rejected by the wallet.";
+
+}
+
+
+showMessage(
+"Payment failed: "+msg,
+"error"
+);
+
+}finally{
+
+buyButton.disabled=false;
+
+}
+
 }
 
 
@@ -1158,52 +1067,55 @@ function loadScript(src){
 
 function updateCountdown(){
 
-  const end =
-    new Date(PRESALE_END).getTime();
+const end=
+new Date(PRESALE_END).getTime();
 
-  const now =
-    Date.now();
+const now=
+Date.now();
 
-  let diff =
-    end - now;
+let diff=
+end-now;
 
-  if(diff < 0){
-    diff = 0;
-  }
+if(diff<0){
+diff=0;
+}
 
-  const totalSeconds =
-    Math.floor(diff / 1000);
+const total=
+Math.floor(diff/1000);
 
-  const days =
-    Math.floor(
-      totalSeconds / 86400
-    );
+const d=
+Math.floor(total/86400);
 
-  const hours =
-    Math.floor(
-      (totalSeconds % 86400) / 3600
-    );
+const h=
+Math.floor(
+(total%86400)/3600
+);
 
-  const minutes =
-    Math.floor(
-      (totalSeconds % 3600) / 60
-    );
+const m=
+Math.floor(
+(total%3600)/60
+);
 
-  const seconds =
-    totalSeconds % 60;
+const s=
+total%60;
 
 
-  document.getElementById("days")
-    .textContent = String(days).padStart(2,"0");
+document.getElementById("days")
+.textContent=
+String(d).padStart(2,"0");
 
-  document.getElementById("hours")
-    .textContent = String(hours).padStart(2,"0");
+document.getElementById("hours")
+.textContent=
+String(h).padStart(2,"0");
 
-  document.getElementById("minutes")
-    .textContent = String(minutes).padStart(2,"0");
+document.getElementById("minutes")
+.textContent=
+String(m).padStart(2,"0");
 
-  document.getElementById("seconds")
-    .textContent = String(seconds).padStart(2,"0");
+document.getElementById("seconds")
+.textContent=
+String(s).padStart(2,"0");
+
 }
 
 
@@ -1211,16 +1123,26 @@ function updateCountdown(){
    START
 ========================= */
 
-const savedLang =
-  localStorage.getItem("qx_lang") || "en";
+let currentWalletAddress=null;
+
+const savedLang=
+localStorage.getItem("qx_lang")
+||"en";
 
 setLanguage(savedLang);
 
 updateCountdown();
 
 setInterval(
-  updateCountdown,
-  1000
+updateCountdown,
+1000
+);
+
+loadSolPrice();
+
+setInterval(
+loadSolPrice,
+60000
 );
 
 </script>
