@@ -6,19 +6,15 @@
 <meta name="theme-color" content="#080711">
 <title>QX Presale — Standalone</title>
 
-<!-- Initialize Buffer through one deterministic promise; payment awaits this. -->
 <script>
 (() => {
   window.__qxPresaleBufferReady = import("https://esm.sh/buffer@6.0.3?bundle")
     .then(({ Buffer }) => {
-      if (
-        !Buffer ||
-        typeof Buffer.from !== "function" ||
-        typeof Buffer.alloc !== "function" ||
-        typeof Buffer.allocUnsafe !== "function" ||
-        typeof Buffer.concat !== "function"
-      ) {
-        throw new Error("The Buffer module loaded without the required methods.");
+      if (!Buffer || typeof Buffer.from !== "function" ||
+          typeof Buffer.alloc !== "function" ||
+          typeof Buffer.allocUnsafe !== "function" ||
+          typeof Buffer.concat !== "function") {
+        throw new Error("Buffer module loaded without the required methods.");
       }
       window.Buffer = Buffer;
       globalThis.Buffer = Buffer;
@@ -323,6 +319,7 @@ h1{font-size:38px;margin:17px 0 9px}
     <strong id="solPerQx">Loading...</strong>
     <span data-i18n="perQx">SOL per QX</span>
   </div>
+
   <div class="countdown">
     <div class="countdown-title" data-i18n="countdownTitle">TIME LEFT UNTIL PRESALE ENDS</div>
     <div class="timer" id="timer">
@@ -333,6 +330,7 @@ h1{font-size:38px;margin:17px 0 9px}
     </div>
     <div id="endedMessage" class="ended" hidden data-i18n="ended">PRESALE ENDED</div>
   </div>
+
   <div class="grid">
     <div class="info"><span data-i18n="total">Total Supply</span><strong>100,000,000 QX</strong></div>
   </div>
@@ -345,13 +343,16 @@ h1{font-size:38px;margin:17px 0 9px}
     <input id="solAmount" type="number" min="0" step="0.000001" inputmode="decimal" placeholder="0.00">
     <span>SOL</span>
   </div>
+
   <div class="receive">
     <div class="label"><span data-i18n="receive">YOU RECEIVE</span><span>QX</span></div>
     <div class="receive-value" id="qxAmount">0 QX</div>
     <div class="quote" id="quoteText" data-i18n="quoteLoading">Live SOL price is loading...</div>
   </div>
+
+  <button class="btn" id="connectBtn" type="button" style="background:#211432;color:#fff;border:1px solid #7650a8" data-i18n="connectWallet">CONNECT WALLET</button>
   <button class="btn primary" id="buyBtn" disabled data-i18n="buy">BUY QX</button>
-  <div class="wallet-hint" id="walletHint" data-i18n="walletHint">Your wallet will connect when you press BUY QX.</div>
+  <div class="wallet-hint" id="walletHint" data-i18n="walletHint">Connect your Solana wallet before purchasing.</div>
   <div class="status" id="status"></div>
 </section>
 
@@ -365,12 +366,10 @@ h1{font-size:38px;margin:17px 0 9px}
 
 const RECEIVE_WALLET = "E4x2DiVVDuQHSUGgzTPjJMDbiJ6jCRwpEvsvAd31Qs4";
 const QX_PRICE_USD = 0.0002;
-
 const RPC_ENDPOINTS = [
   "https://solana-rpc.publicnode.com",
   "https://api.mainnet-beta.solana.com"
 ];
-
 const PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd";
 const PRESALE_END = new Date("2026-11-15T01:45:00+04:00").getTime();
 
@@ -391,7 +390,8 @@ en:{
  pay:"YOU PAY",receive:"YOU RECEIVE",buy:"BUY QX",
  quoteLoading:"Live SOL price is loading...",
  quote:"Live SOL price: $",
- walletHint:"Your wallet will connect when you press BUY QX.",
+ walletHint:"Connect your Solana wallet before purchasing.",
+ connectWallet:"CONNECT WALLET",
  walletFirst:"Connect your Solana wallet to continue.",
  invalid:"Enter a valid SOL amount.",
  priceUnavailable:"Live SOL price is unavailable. Try again before purchasing.",
@@ -418,7 +418,8 @@ ar:{
  pay:"أنت تدفع",receive:"أنت تستلم",buy:"شراء QX",
  quoteLoading:"جارٍ تحميل سعر SOL المباشر...",
  quote:"سعر SOL المباشر: $",
- walletHint:"سيتم ربط محفظتك عند الضغط على زر الشراء.",
+ walletHint:"اربط محفظة Solana قبل الشراء.",
+ connectWallet:"ربط المحفظة",
  walletFirst:"يرجى ربط محفظة Solana للمتابعة.",
  invalid:"أدخل كمية SOL صحيحة.",
  priceUnavailable:"سعر SOL المباشر غير متاح حالياً. حاول مرة أخرى قبل الشراء.",
@@ -653,13 +654,10 @@ async function buyQX(){
  try{
    setStatus("info",tr("approving"));
 
-   // Wait until this iframe has its own Buffer global before web3.js
-   // serializes the Solana transaction.
    if (!window.__qxPresaleBufferReady) {
      throw new Error("Buffer library failed to load. Reload the page and try again.");
    }
    await window.__qxPresaleBufferReady;
-
    if (
      !window.Buffer ||
      typeof window.Buffer.from !== "function" ||
@@ -683,7 +681,6 @@ async function buyQX(){
    }
 
    const {connection,latest}=await getWorkingConnection();
-
    const transaction=new solanaWeb3.Transaction().add(
      solanaWeb3.SystemProgram.transfer({
        fromPubkey:sender,
@@ -691,19 +688,16 @@ async function buyQX(){
        lamports
      })
    );
-
    transaction.feePayer=sender;
    transaction.recentBlockhash=latest.blockhash;
 
    setStatus("info",tr("waiting"));
-
    const signature=await sendDirect(transaction);
    if(typeof signature!=="string" || !signature){
      throw new Error("The connected wallet did not return a valid transaction signature.");
    }
 
    setStatus("info",tr("sending"));
-
    const confirmation=await connection.confirmTransaction({
      signature,
      blockhash:latest.blockhash,
@@ -716,13 +710,11 @@ async function buyQX(){
 
    $("solAmount").value="";
    updateQuote();
-
    setStatus(
      "success",
      tr("success")+" "+qx.toLocaleString("en-US",{maximumFractionDigits:2})+" QX",
      "https://solscan.io/tx/"+encodeURIComponent(signature)
    );
-
  }catch(err){
    const msg=String(err?.message||err||"");
    setStatus("error",/reject|cancel|4001|user rejected/i.test(msg)?tr("cancelled"):tr("failed")+msg);
@@ -732,12 +724,34 @@ async function buyQX(){
  }
 }
 
+async function connectWalletButton(){
+ const button=$("connectBtn");
+ button.disabled=true;
+ clearStatus();
+ try{
+   await window.__qxStandaloneWalletReady;
+   if(!window.__qxStandaloneWallet) throw new Error("Wallet connection is unavailable. Reload the page and try again.");
+   const address=await ensureWalletConnected();
+   $("walletHint").textContent=tr("connected")+shortAddress(address);
+   setStatus("success",tr("connected")+shortAddress(address));
+ }catch(err){
+   const msg=String(err?.message||err||"");
+   setStatus("error",/reject|cancel|4001|user rejected/i.test(msg)?tr("cancelled"):tr("failed")+msg);
+ }finally{
+   button.disabled=false;
+ }
+}
+
+$("connectBtn").addEventListener("click",connectWalletButton);
 $("buyBtn").addEventListener("click",buyQX);
 
 async function restoreWallet(){
- const address=readParentWallet();
- if(address){
-   $("walletHint").textContent=tr("connected")+shortAddress(address);
+ try{
+   await window.__qxStandaloneWalletReady;
+   const address=window.__qxStandaloneWallet?.getAddress?.();
+   if(address) $("walletHint").textContent=tr("connected")+shortAddress(address);
+ }catch(error){
+   console.warn("Wallet restore skipped:",error);
  }
  updateBuyState();
 }
