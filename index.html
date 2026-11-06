@@ -672,8 +672,7 @@ Presale ends in
 <div class="card info">
 
 <div id="infoText">
-Your SOL payment is sent directly on-chain to the official QX presale wallet.
-QX allocation is delivered manually after the presale.
+Your SOL payment is processed directly on-chain through the official QX presale. Once your purchase is completed, your QX allocation will be securely assigned to your wallet and remain locked until the presale period ends. Your assets will become fully available after the official presale conclusion.
 </div>
 
 <br>
@@ -851,7 +850,9 @@ days:"Days",
 hours:"Hours",
 minutes:"Minutes",
 seconds:"Seconds",
-info:"Your SOL payment is sent directly on-chain to the official QX presale wallet. QX allocation is delivered manually after the presale.",
+
+info:"Your SOL payment is processed directly on-chain through the official QX presale. Once your purchase is completed, your QX allocation will be securely assigned to your wallet and remain locked until the presale period ends. Your assets will become fully available after the official presale conclusion.",
+
 network:"Network: Solana Mainnet",
 connecting:"Connecting wallet...",
 approve:"Approve the transaction in your wallet.",
@@ -885,7 +886,9 @@ days:"يوم",
 hours:"ساعة",
 minutes:"دقيقة",
 seconds:"ثانية",
-info:"يتم إرسال دفعة SOL مباشرة على شبكة سولانا إلى محفظة اكتتاب QX الرسمية. يتم توزيع QX يدويًا بعد انتهاء الاكتتاب.",
+
+info:"يتم إرسال دفعة SOL مباشرة على شبكة Solana من خلال البيع المسبق الرسمي لـ QX. بمجرد إتمام عملية الشراء، سيتم تخصيص أصول QX وإضافتها إلى محفظتك بشكل آمن، مع بقائها مقفلة حتى انتهاء فترة البيع المسبق. وستصبح أصولك متاحة بالكامل بعد انتهاء البيع المسبق رسميًا.",
+
 network:"الشبكة: Solana Mainnet",
 connecting:"جاري ربط المحفظة...",
 approve:"وافق على العملية من داخل محفظتك.",
@@ -976,21 +979,12 @@ message.textContent=text;
 
 function findWallet(){
 
-/*
- Phantom داخل Safari / Phantom browser
-*/
-
 if(window.phantom &&
 window.phantom.solana){
 
 return window.phantom.solana;
 
 }
-
-
-/*
- بعض نسخ Phantom القديمة
-*/
 
 if(window.solana &&
 window.solana.isPhantom){
@@ -999,22 +993,12 @@ return window.solana;
 
 }
 
-
-/*
- Solflare
-*/
-
 if(window.solflare &&
 window.solflare.solana){
 
 return window.solflare.solana;
 
 }
-
-
-/*
- Backpack
-*/
 
 if(window.backpack &&
 window.backpack.solana){
@@ -1154,13 +1138,6 @@ return;
 
 }
 
-
-/*
- مهم:
-في Safari العادي لن تكون المحفظة injected.
-بدل رسالة الخطأ نفتح اختيار المحفظة.
-*/
-
 openWalletModal();
 
 showMessage(
@@ -1222,6 +1199,7 @@ commitment:"confirmed",
 confirmTransactionInitialTimeout:60000
 }
 );
+
 
 }
 
@@ -1509,20 +1487,10 @@ T[lang].insufficient
 
 }
 
-
-/*
- جلب blockhash من Helius
-*/
-
 const latest=
 await conn.getLatestBlockhash(
 "confirmed"
 );
-
-
-/*
- بناء المعاملة
-*/
 
 const tx=
 new solanaWeb3.Transaction();
@@ -1544,16 +1512,10 @@ lamports:lamports
 })
 );
 
-
 showMessage(
 T[lang].approve,
 "info"
 );
-
-
-/*
- Phantom / Solflare / Backpack
-*/
 
 let result;
 
@@ -1587,7 +1549,6 @@ signature:signature
 
 }
 
-
 const signature=
 result?.signature;
 
@@ -1599,12 +1560,10 @@ throw new Error(
 
 }
 
-
 showMessage(
 T[lang].confirming,
 "info"
 );
-
 
 await conn.confirmTransaction(
 {
@@ -1615,7 +1574,6 @@ latest.lastValidBlockHeight
 },
 "confirmed"
 );
-
 
 showMessage(
 T[lang].success+
@@ -1848,20 +1806,10 @@ countdown,
 1000
 );
 
-
-/*
- أول تشغيل
-*/
-
 setTimeout(
 detectAfterReturn,
 500
 );
-
-
-/*
- إذا رجع المستخدم من Phantom/Solflare
-*/
 
 window.addEventListener(
 "pageshow",
