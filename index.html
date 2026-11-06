@@ -5,16 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080711">
 <title>QX Presale — Standalone</title>
-<!-- Buffer must be loaded in this iframe before Solana web3.js. -->
-<!-- This is the standalone browser build of feross/buffer. -->
 <script src="https://cdn.jsdelivr.net/npm/buffer@6.0.3/index.min.js" onload="(() => { const B = window.buffer && window.buffer.Buffer || window.Buffer; if (!B || typeof B.from !== 'function' || typeof B.alloc !== 'function' || typeof B.concat !== 'function') { window.__qxPresaleBufferReady = Promise.reject(new Error('Buffer library failed to load correctly.')); return; } window.Buffer = B; globalThis.Buffer = B; window.__qxPresaleBufferReady = Promise.resolve(B); })()" onerror="window.__qxPresaleBufferReady = Promise.reject(new Error('Buffer CDN failed to load.'))"></script>
 <script>
+/* Typed-array compatibility patch */
+(() => {
+  const fill = function(value, start, end) {
+    const length = Number(this.length) >>> 0;
+    let from = start === undefined ? 0 : Math.trunc(Number(start) || 0);
+    let to = end === undefined ? length : Math.trunc(Number(end) || 0);
+    from = from < 0 ? Math.max(length + from, 0) : Math.min(from, length);
+    to = to < 0 ? Math.max(length + to, 0) : Math.min(to, length);
+    for (let i = from; i < to; i++) this[i] = value;
+    return this;
+  };
+  const arrays = [
+    Uint8Array, Int8Array, Uint16Array, Int16Array,
+    Uint32Array, Int32Array, Float32Array, Float64Array
+  ];
+  if (typeof BigInt64Array !== "undefined") arrays.push(BigInt64Array);
+  if (typeof BigUint64Array !== "undefined") arrays.push(BigUint64Array);
+  for (const C of arrays) {
+    if (C && C.prototype && typeof C.prototype.fill !== "function") {
+      Object.defineProperty(C.prototype, "fill", {
+        configurable: true, writable: true, value: fill
+      });
+    }
+  }
+  window.__qxTypedArrayFill = fill;
+})();
 window.__qxPresaleBufferReady = window.__qxPresaleBufferReady || new Promise((resolve, reject) => {
   window.addEventListener('load', () => {
     const B = window.buffer && window.buffer.Buffer || window.Buffer;
     if (B && typeof B.from === 'function' && typeof B.alloc === 'function' && typeof B.concat === 'function') {
-      window.Buffer = B; globalThis.Buffer = B; resolve(B);
-    } else reject(new Error('Buffer library failed to load correctly.'));
+      window.Buffer = B;
+      globalThis.Buffer = B;
+      if (typeof B.prototype.fill !== "function" && window.__qxTypedArrayFill) {
+        Object.defineProperty(B.prototype, "fill", {
+          configurable: true, writable: true, value: window.__qxTypedArrayFill
+        });
+      }
+      resolve(B);
+    } else {
+      reject(new Error('Buffer library failed to load correctly.'));
+    }
   }, { once: true });
 });
 </script>
@@ -34,6 +67,13 @@ window.__qxPresaleBufferReady = window.__qxPresaleBufferReady || new Promise((re
 
       globalThis.Buffer = Buffer;
       window.Buffer = Buffer;
+
+      const fill = window.__qxTypedArrayFill;
+      if (Buffer && Buffer.prototype && typeof Buffer.prototype.fill !== "function" && fill) {
+        Object.defineProperty(Buffer.prototype, "fill", {
+          configurable: true, writable: true, value: fill
+        });
+      }
 
       const createAppKit = appkitModule.createAppKit;
       const SolanaAdapter = adapterModule.SolanaAdapter;
@@ -98,10 +138,8 @@ window.__qxPresaleBufferReady = window.__qxPresaleBufferReady || new Promise((re
       }
 
       async function connect() {
-        // If already connected in this page, reuse it.
         if (valid(connectedAddress)) return connectedAddress;
 
-        // Prefer an injected wallet when this page is opened inside its wallet browser.
         const wallets = injected();
         if (wallets.length === 1) {
           const { provider } = wallets[0];
@@ -118,7 +156,6 @@ window.__qxPresaleBufferReady = window.__qxPresaleBufferReady || new Promise((re
           }
         }
 
-        // Otherwise open the same Reown Solana wallet picker used by QX.
         await appKit.open();
 
         const started = Date.now();
@@ -180,6 +217,7 @@ window.__qxPresaleBufferReady = window.__qxPresaleBufferReady || new Promise((re
   window.__qxStandaloneWalletReady = ready;
 })();
 </script>
+
 <style>
 :root{
   --bg:#070510;--panel:#120b21;--line:#5d3b91;--text:#fffaff;
@@ -344,6 +382,7 @@ h1{font-size:38px;margin:17px 0 9px}
 <div class="note" data-i18n="note">Your payment is sent on-chain after wallet approval. QX allocation will be delivered manually after the presale ends.</div>
 <div class="footer">QX Exchange · Solana</div>
 </div>
+
 <script>
 (() => {
 "use strict";
@@ -372,6 +411,7 @@ en:{
  days:"DAYS",hours:"HOURS",minutes:"MINUTES",seconds:"SECONDS",
  ended:"PRESALE ENDED",total:"Total Supply",buyTitle:"Purchase QX",
  pay:"YOU PAY",receive:"YOU RECEIVE",buy:"BUY QX",
+ connectWallet:"CONNECT WALLET",
  quoteLoading:"Live SOL price is loading...",
  quote:"Live SOL price: $",
  walletHint:"Connect your Solana wallet before purchasing.",
@@ -399,6 +439,7 @@ ar:{
  days:"أيام",hours:"ساعات",minutes:"دقائق",seconds:"ثوانٍ",
  ended:"انتهى الاكتتاب",total:"إجمالي المعروض",buyTitle:"شراء QX",
  pay:"أنت تدفع",receive:"أنت تستلم",buy:"شراء QX",
+ connectWallet:"ربط المحفظة",
  quoteLoading:"جارٍ تحميل سعر SOL المباشر...",
  quote:"سعر SOL المباشر: $",
  walletHint:"اربط محفظة Solana قبل الشراء.",
@@ -636,25 +677,25 @@ async function buyQX(){
  try{
    setStatus("info",tr("approving"));
 
-   // Wait until this iframe has its own Buffer global before web3.js
-   // serializes the Solana transaction.
    if (!window.__qxPresaleBufferReady) {
      throw new Error("Buffer library failed to load. Reload the page and try again.");
    }
    await window.__qxPresaleBufferReady;
+
    if (
      !window.Buffer ||
      typeof window.Buffer.from !== "function" ||
      typeof window.Buffer.alloc !== "function" ||
      typeof window.Buffer.allocUnsafe !== "function" ||
-     typeof window.Buffer.concat !== "function"
+     typeof window.Buffer.concat !== "function" ||
+     typeof window.Buffer.prototype.fill !== "function"
    ) {
      throw new Error("QX payment library failed to initialize correctly. Reload the page and try again.");
    }
 
-   // Connect using the exact same wallet session as the parent QX page.
    const address=await ensureWalletConnected();
    if(!address || typeof address !== "string") throw new Error("Connected wallet did not return a valid Solana address.");
+
    let sender;
    let destination;
    try {
@@ -664,7 +705,6 @@ async function buyQX(){
      throw new Error("Invalid Solana public key. Reconnect the wallet and try again.");
    }
 
-   // Fetch a fresh blockhash immediately before creating the transfer.
    const {connection,latest}=await getWorkingConnection();
    const transaction=new solanaWeb3.Transaction().add(
      solanaWeb3.SystemProgram.transfer({
@@ -748,3 +788,5 @@ restoreWallet();
 
 })();
 </script>
+</body>
+</html>
