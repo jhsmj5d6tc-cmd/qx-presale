@@ -5,28 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080711">
 <title>QX Presale — Standalone</title>
-
+<!-- Buffer must be loaded in this iframe before Solana web3.js. -->
+<!-- This is the standalone browser build of feross/buffer. -->
+<script src="https://cdn.jsdelivr.net/npm/buffer@6.0.3/index.min.js" onload="(() => { const B = window.buffer && window.buffer.Buffer || window.Buffer; if (!B || typeof B.from !== 'function' || typeof B.alloc !== 'function' || typeof B.concat !== 'function') { window.__qxPresaleBufferReady = Promise.reject(new Error('Buffer library failed to load correctly.')); return; } window.Buffer = B; globalThis.Buffer = B; window.__qxPresaleBufferReady = Promise.resolve(B); })()" onerror="window.__qxPresaleBufferReady = Promise.reject(new Error('Buffer CDN failed to load.'))"></script>
 <script>
-(() => {
-  window.__qxPresaleBufferReady = import("https://esm.sh/buffer@6.0.3?bundle")
-    .then(({ Buffer }) => {
-      if (!Buffer || typeof Buffer.from !== "function" ||
-          typeof Buffer.alloc !== "function" ||
-          typeof Buffer.allocUnsafe !== "function" ||
-          typeof Buffer.concat !== "function") {
-        throw new Error("Buffer module loaded without the required methods.");
-      }
-      window.Buffer = Buffer;
-      globalThis.Buffer = Buffer;
-      return Buffer;
-    })
-    .catch(error => {
-      console.error("QX Buffer initialization failed:", error);
-      throw new Error("Buffer library failed to load correctly. Check your connection and reload the page.");
-    });
-})();
+window.__qxPresaleBufferReady = window.__qxPresaleBufferReady || new Promise((resolve, reject) => {
+  window.addEventListener('load', () => {
+    const B = window.buffer && window.buffer.Buffer || window.Buffer;
+    if (B && typeof B.from === 'function' && typeof B.alloc === 'function' && typeof B.concat === 'function') {
+      window.Buffer = B; globalThis.Buffer = B; resolve(B);
+    } else reject(new Error('Buffer library failed to load correctly.'));
+  }, { once: true });
+});
 </script>
-
 <script src="https://unpkg.com/@solana/web3.js@1.98.4/lib/index.iife.min.js"></script>
 
 <script type="module">
@@ -35,9 +26,9 @@
     try {
       const [{ Buffer }, appkitModule, adapterModule, networksModule, web3Module] = await Promise.all([
         import("https://esm.sh/buffer@6.0.3?bundle"),
-        import("https://esm.sh/@reown/appkit?bundle"),
-        import("https://esm.sh/@reown/appkit-adapter-solana?bundle"),
-        import("https://esm.sh/@reown/appkit/networks?bundle"),
+        import("https://esm.sh/@reown/appkit@1.8.24?bundle"),
+        import("https://esm.sh/@reown/appkit-adapter-solana@1.8.24?bundle&deps=@reown/appkit@1.8.24"),
+        import("https://esm.sh/@reown/appkit@1.8.24/networks?bundle"),
         import("https://esm.sh/@solana/web3.js@1.98.4?bundle")
       ]);
 
@@ -107,8 +98,10 @@
       }
 
       async function connect() {
+        // If already connected in this page, reuse it.
         if (valid(connectedAddress)) return connectedAddress;
 
+        // Prefer an injected wallet when this page is opened inside its wallet browser.
         const wallets = injected();
         if (wallets.length === 1) {
           const { provider } = wallets[0];
@@ -125,6 +118,7 @@
           }
         }
 
+        // Otherwise open the same Reown Solana wallet picker used by QX.
         await appKit.open();
 
         const started = Date.now();
@@ -186,7 +180,6 @@
   window.__qxStandaloneWalletReady = ready;
 })();
 </script>
-
 <style>
 :root{
   --bg:#070510;--panel:#120b21;--line:#5d3b91;--text:#fffaff;
@@ -295,7 +288,6 @@ h1{font-size:38px;margin:17px 0 9px}
 }
 </style>
 </head>
-
 <body>
 <div class="wrap">
 <header>
@@ -308,7 +300,6 @@ h1{font-size:38px;margin:17px 0 9px}
     <a class="back" href="https://jhsmj5d6tc-cmd.github.io/qx-exchange/" data-i18n="back">Back to QX</a>
   </div>
 </header>
-
 <section class="hero">
   <div class="badge" data-i18n="badge">QX PRESALE</div>
   <h1 data-i18n="title">Buy QX</h1>
@@ -319,7 +310,6 @@ h1{font-size:38px;margin:17px 0 9px}
     <strong id="solPerQx">Loading...</strong>
     <span data-i18n="perQx">SOL per QX</span>
   </div>
-
   <div class="countdown">
     <div class="countdown-title" data-i18n="countdownTitle">TIME LEFT UNTIL PRESALE ENDS</div>
     <div class="timer" id="timer">
@@ -330,12 +320,10 @@ h1{font-size:38px;margin:17px 0 9px}
     </div>
     <div id="endedMessage" class="ended" hidden data-i18n="ended">PRESALE ENDED</div>
   </div>
-
   <div class="grid">
     <div class="info"><span data-i18n="total">Total Supply</span><strong>100,000,000 QX</strong></div>
   </div>
 </section>
-
 <section class="card">
   <h2 data-i18n="buyTitle">Purchase QX</h2>
   <div class="label"><span data-i18n="pay">YOU PAY</span><span id="solUsdLabel">SOL/USD: —</span></div>
@@ -343,23 +331,19 @@ h1{font-size:38px;margin:17px 0 9px}
     <input id="solAmount" type="number" min="0" step="0.000001" inputmode="decimal" placeholder="0.00">
     <span>SOL</span>
   </div>
-
   <div class="receive">
     <div class="label"><span data-i18n="receive">YOU RECEIVE</span><span>QX</span></div>
     <div class="receive-value" id="qxAmount">0 QX</div>
     <div class="quote" id="quoteText" data-i18n="quoteLoading">Live SOL price is loading...</div>
   </div>
-
   <button class="btn" id="connectBtn" type="button" style="background:#211432;color:#fff;border:1px solid #7650a8" data-i18n="connectWallet">CONNECT WALLET</button>
   <button class="btn primary" id="buyBtn" disabled data-i18n="buy">BUY QX</button>
   <div class="wallet-hint" id="walletHint" data-i18n="walletHint">Connect your Solana wallet before purchasing.</div>
   <div class="status" id="status"></div>
 </section>
-
 <div class="note" data-i18n="note">Your payment is sent on-chain after wallet approval. QX allocation will be delivered manually after the presale ends.</div>
 <div class="footer">QX Exchange · Solana</div>
 </div>
-
 <script>
 (() => {
 "use strict";
@@ -391,7 +375,6 @@ en:{
  quoteLoading:"Live SOL price is loading...",
  quote:"Live SOL price: $",
  walletHint:"Connect your Solana wallet before purchasing.",
- connectWallet:"CONNECT WALLET",
  walletFirst:"Connect your Solana wallet to continue.",
  invalid:"Enter a valid SOL amount.",
  priceUnavailable:"Live SOL price is unavailable. Try again before purchasing.",
@@ -419,7 +402,6 @@ ar:{
  quoteLoading:"جارٍ تحميل سعر SOL المباشر...",
  quote:"سعر SOL المباشر: $",
  walletHint:"اربط محفظة Solana قبل الشراء.",
- connectWallet:"ربط المحفظة",
  walletFirst:"يرجى ربط محفظة Solana للمتابعة.",
  invalid:"أدخل كمية SOL صحيحة.",
  priceUnavailable:"سعر SOL المباشر غير متاح حالياً. حاول مرة أخرى قبل الشراء.",
@@ -654,6 +636,8 @@ async function buyQX(){
  try{
    setStatus("info",tr("approving"));
 
+   // Wait until this iframe has its own Buffer global before web3.js
+   // serializes the Solana transaction.
    if (!window.__qxPresaleBufferReady) {
      throw new Error("Buffer library failed to load. Reload the page and try again.");
    }
@@ -668,9 +652,9 @@ async function buyQX(){
      throw new Error("QX payment library failed to initialize correctly. Reload the page and try again.");
    }
 
+   // Connect using the exact same wallet session as the parent QX page.
    const address=await ensureWalletConnected();
    if(!address || typeof address !== "string") throw new Error("Connected wallet did not return a valid Solana address.");
-
    let sender;
    let destination;
    try {
@@ -680,6 +664,7 @@ async function buyQX(){
      throw new Error("Invalid Solana public key. Reconnect the wallet and try again.");
    }
 
+   // Fetch a fresh blockhash immediately before creating the transfer.
    const {connection,latest}=await getWorkingConnection();
    const transaction=new solanaWeb3.Transaction().add(
      solanaWeb3.SystemProgram.transfer({
@@ -728,16 +713,14 @@ async function connectWalletButton(){
  const button=$("connectBtn");
  button.disabled=true;
  clearStatus();
- try{
-   await window.__qxStandaloneWalletReady;
-   if(!window.__qxStandaloneWallet) throw new Error("Wallet connection is unavailable. Reload the page and try again.");
+ try {
    const address=await ensureWalletConnected();
    $("walletHint").textContent=tr("connected")+shortAddress(address);
    setStatus("success",tr("connected")+shortAddress(address));
- }catch(err){
+ } catch(err) {
    const msg=String(err?.message||err||"");
    setStatus("error",/reject|cancel|4001|user rejected/i.test(msg)?tr("cancelled"):tr("failed")+msg);
- }finally{
+ } finally {
    button.disabled=false;
  }
 }
@@ -746,12 +729,12 @@ $("connectBtn").addEventListener("click",connectWalletButton);
 $("buyBtn").addEventListener("click",buyQX);
 
 async function restoreWallet(){
- try{
+ try {
    await window.__qxStandaloneWalletReady;
-   const address=window.__qxStandaloneWallet?.getAddress?.();
+   const address = window.__qxStandaloneWallet?.getAddress?.();
    if(address) $("walletHint").textContent=tr("connected")+shortAddress(address);
- }catch(error){
-   console.warn("Wallet restore skipped:",error);
+ } catch (error) {
+   console.warn("QX wallet restore skipped:", error);
  }
  updateBuyState();
 }
@@ -765,5 +748,3 @@ restoreWallet();
 
 })();
 </script>
-</body>
-</html>
